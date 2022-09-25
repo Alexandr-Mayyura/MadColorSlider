@@ -26,17 +26,17 @@ class ViewController: UIViewController {
     }
 
     @IBAction func redSliderAction() {
-        redColorNumber.text = "\(String(format: "%.2f", redSlider.value))  "
+        redColorNumber.text = "\(String(format: "%.2f", redSlider.value))"
         changeColor()
     }
         
     @IBAction func greenSliderAction() {
-        greenColorNumber.text = "\(String(format: "%.2f", greenSlider.value))  "
+        greenColorNumber.text = "\(String(format: "%.2f", greenSlider.value))"
         changeColor()
     }
     
     @IBAction func blueSliderAction() {
-        blueColorNumber.text = "\(String(format: "%.2f", blueSlider.value))  "
+        blueColorNumber.text = "\(String(format: "%.2f", blueSlider.value))"
         changeColor()
     }
     
@@ -48,6 +48,5 @@ class ViewController: UIViewController {
             alpha: 1
         )
     }
-    
 }
 
