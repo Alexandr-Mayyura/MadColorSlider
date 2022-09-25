@@ -18,12 +18,6 @@ class ViewController: UIViewController {
     @IBOutlet var redSlider: UISlider!
     @IBOutlet var greenSlider: UISlider!
     @IBOutlet var blueSlider: UISlider!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        colorView.layer.cornerRadius = 12
-        colorView.backgroundColor = .black
-    }
 
     @IBAction func redSliderAction() {
         redColorNumber.text = "\(String(format: "%.2f", redSlider.value))"
