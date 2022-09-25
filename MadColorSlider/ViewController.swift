@@ -21,7 +21,6 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupSliders()
         colorView.layer.cornerRadius = 12
         colorView.backgroundColor = .black
     }
@@ -39,11 +38,6 @@ class ViewController: UIViewController {
     @IBAction func blueSliderAction() {
         blueColorNumber.text = "\(String(format: "%.2f", blueSlider.value))  "
         changeColor()
-    }
-    
-    private func setupSliders() {
-        redSlider.minimumTrackTintColor = .red
-        greenSlider.minimumTrackTintColor = .green
     }
     
     private func changeColor() {
