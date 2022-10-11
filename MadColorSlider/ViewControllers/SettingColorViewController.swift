@@ -58,6 +58,11 @@ class SettingColorViewController: UIViewController {
         dismiss(animated: true)
     }
     
+    
+}
+
+// MARK: Private methods
+extension SettingColorViewController {
     private func presentAlertVC(_ textField: UITextField? = nil) {
         let alertVC = UIAlertController(
             title: "Ошибка",
@@ -107,10 +112,7 @@ class SettingColorViewController: UIViewController {
         getValueFromTextfield()
         updateUI()
     }
-}
-
-// MARK: Private methods
-extension SettingColorViewController {
+    
     private func updateUI() {
         
         changeableСolor = UIColor(
