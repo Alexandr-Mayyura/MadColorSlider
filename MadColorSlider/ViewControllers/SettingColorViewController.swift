@@ -77,9 +77,9 @@ class SettingColorViewController: UIViewController {
             x: 0,
             y: 0,
             width: view.frame.size.width,
-            height: 80
+            height: 35
         ))
-        toolBar.barStyle = .black
+        toolBar.barStyle = .default
         
         let flexSpace = UIBarButtonItem(
             barButtonSystemItem: .flexibleSpace,
@@ -95,13 +95,8 @@ class SettingColorViewController: UIViewController {
         
         let items = [flexSpace, toolBarAction]
         toolBar.items = items
-        toolBar.sizeToFit()
-        
+
         textField.inputAccessoryView = toolBar
-        textField.inputAccessoryView = toolBar
-        textField.inputAccessoryView = toolBar
-        
-        
     }
     
     @objc private func doneButtonTapped() {
