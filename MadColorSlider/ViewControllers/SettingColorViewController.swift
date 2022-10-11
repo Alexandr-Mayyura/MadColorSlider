@@ -43,9 +43,10 @@ class SettingColorViewController: UIViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
+        
+        view.endEditing(true)
         getValueFromTextfield()
         updateUI()
-        view.endEditing(true)
     }
     
     @IBAction func sliderAction() {
@@ -155,26 +156,26 @@ extension SettingColorViewController {
     }
     
     private func getValueFromTextfield() {
-        
+         
         guard let redText = redTextField.text else { return }
         if Float(redText) ?? 0.0 < 0 || Float(redText) ?? 0.0 > 1 {
             presentAlertVC(redTextField)
         } else {
-            redSlider.value = Float(redText) ?? redSlider.value
+            redSlider.setValue(Float(redText) ?? redSlider.value, animated: true)
         }
         
         guard let greenText = greenTextField.text else { return }
         if Float(greenText) ?? 0.0 < 0 || Float(greenText) ?? 0.0 > 1 {
             presentAlertVC(greenTextField)
         } else {
-            greenSlider.value = Float(greenText) ?? greenSlider.value
+            greenSlider.setValue(Float(greenText) ?? greenSlider.value, animated: true)
         }
         
         guard let blueText = blueTextField.text else { return }
         if Float(blueText) ?? 0.0 < 0 || Float(blueText) ?? 0.0 > 1 {
             presentAlertVC(blueTextField)
         } else {
-            blueSlider.value = Float(blueText) ?? blueSlider.value
+            blueSlider.setValue(Float(blueText) ?? blueSlider.value, animated: true)
         }
         
         redColorLabel.text = "\(String(format: "%.2f", redText))"
@@ -192,10 +193,16 @@ extension SettingColorViewController {
 
 // MARK:  UITextFieldDelegate
 extension SettingColorViewController: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.text = ""
+    }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         getValueFromTextfield()
         updateUI()
     }
+    
+    
 }
 
