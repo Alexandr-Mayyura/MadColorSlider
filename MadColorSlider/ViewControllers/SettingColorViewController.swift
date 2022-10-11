@@ -36,7 +36,9 @@ class SettingColorViewController: UIViewController {
         greenTextField.delegate = self
         blueTextField.delegate = self
         
-        addToolBar()
+        addToolBar(redTextField)
+        addToolBar(greenTextField)
+        addToolBar(blueTextField)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -77,7 +79,7 @@ class SettingColorViewController: UIViewController {
         present(alertVC, animated: true)
     }
     
-    private func addToolBar() {
+    private func addToolBar(_ textField: UITextField) {
         let toolBar = UIToolbar(frame: CGRect(
             x: 0,
             y: 0,
@@ -102,9 +104,9 @@ class SettingColorViewController: UIViewController {
         toolBar.items = items
         toolBar.sizeToFit()
         
-        greenTextField.inputAccessoryView = toolBar
-        redTextField.inputAccessoryView = toolBar
-        blueTextField.inputAccessoryView = toolBar
+        textField.inputAccessoryView = toolBar
+        textField.inputAccessoryView = toolBar
+        textField.inputAccessoryView = toolBar
         
         
     }
@@ -127,6 +129,10 @@ extension SettingColorViewController {
         redColorLabel.text = "\(String(format: "%.2f", redSlider.value))"
         greenColorLabel.text = "\(String(format: "%.2f", greenSlider.value))"
         blueColorLabel.text = "\(String(format: "%.2f", blueSlider.value))"
+        
+        redTextField.text = "\(String(format: "%.2f", redSlider.value))"
+        greenTextField.text = "\(String(format: "%.2f",greenSlider.value))"
+        blueTextField.text = "\(String(format: "%.2f", blueSlider.value))"
         
     }
     
