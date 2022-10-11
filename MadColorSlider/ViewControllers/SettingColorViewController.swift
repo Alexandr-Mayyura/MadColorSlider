@@ -23,13 +23,13 @@ class SettingColorViewController: UIViewController {
     @IBOutlet var greenTextField: UITextField!
     @IBOutlet var blueTextField: UITextField!
     
-    var backgroundColor: UIColor!
+    var changeableСolor: UIColor!
     
     var delegate: SettingColorViewControllerDelegate!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        colorView.backgroundColor = backgroundColor
+        colorView.backgroundColor = changeableСolor
         passedValueFromColor()
         
         redTextField.delegate = self
@@ -54,7 +54,7 @@ class SettingColorViewController: UIViewController {
     }
     
     @IBAction func saveValueAndExit() {
-        delegate.setNewColor(for: backgroundColor)
+        delegate.setNewColor(for: changeableСolor)
         dismiss(animated: true)
     }
     
@@ -113,7 +113,7 @@ class SettingColorViewController: UIViewController {
 extension SettingColorViewController {
     private func updateUI() {
         
-        backgroundColor = UIColor(
+        changeableСolor = UIColor(
             red: CGFloat(redSlider.value),
             green: CGFloat(greenSlider.value),
             blue: CGFloat(blueSlider.value),
@@ -128,12 +128,12 @@ extension SettingColorViewController {
         greenTextField.text = "\(String(format: "%.2f",greenSlider.value))"
         blueTextField.text = "\(String(format: "%.2f", blueSlider.value))"
         
-        colorView.backgroundColor = backgroundColor
+        colorView.backgroundColor = changeableСolor
         
     }
     
     private func passedValueFromColor() {
-        let  color = CIColor(color: backgroundColor)
+        let  color = CIColor(color: changeableСolor)
         
         redSlider.value = Float(color.red)
         greenSlider.value = Float(color.green)
@@ -176,7 +176,7 @@ extension SettingColorViewController {
         greenColorLabel.text = "\(String(format: "%.2f", greenSlider.value))"
         blueColorLabel.text = "\(String(format: "%.2f", blueSlider.value))"
         
-        backgroundColor = UIColor(
+        changeableСolor = UIColor(
             red: CGFloat(redSlider.value),
             green: CGFloat(greenSlider.value),
             blue: CGFloat(blueSlider.value),
@@ -196,7 +196,5 @@ extension SettingColorViewController: UITextFieldDelegate {
         getValueFromTextfield()
         updateUI()
     }
-    
-    
 }
 
