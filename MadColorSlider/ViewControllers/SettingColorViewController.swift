@@ -198,8 +198,8 @@ extension SettingColorViewController: UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-//        getValueFromTextfield()
-//        updateUI()
+        getValueFromTextfield()
+        updateUI()
     }
     
     
