@@ -115,6 +115,7 @@ class SettingColorViewController: UIViewController {
         redTextField.resignFirstResponder()
         greenTextField.resignFirstResponder()
         blueTextField.resignFirstResponder()
+        
         getValueFromTextfield()
         updateUI()
     }
