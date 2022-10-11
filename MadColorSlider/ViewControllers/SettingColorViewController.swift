@@ -26,6 +26,8 @@ class SettingColorViewController: UIViewController {
     var changeableСolor: UIColor!
     
     var delegate: SettingColorViewControllerDelegate!
+    
+    private var isComplete = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,9 +45,8 @@ class SettingColorViewController: UIViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        
-        view.endEditing(true)
         getValueFromTextfield()
+        view.endEditing(isComplete)
         updateUI()
     }
     
@@ -57,8 +58,6 @@ class SettingColorViewController: UIViewController {
         delegate.setNewColor(for: changeableСolor)
         dismiss(animated: true)
     }
-    
-    
 }
 
 // MARK: Private methods
@@ -105,11 +104,14 @@ extension SettingColorViewController {
     }
     
     @objc private func doneButtonTapped() {
-        redTextField.resignFirstResponder()
-        greenTextField.resignFirstResponder()
-        blueTextField.resignFirstResponder()
-        
         getValueFromTextfield()
+        if isComplete {
+            redTextField.resignFirstResponder()
+            greenTextField.resignFirstResponder()
+            blueTextField.resignFirstResponder()
+            
+        }
+        isComplete = true
         updateUI()
     }
     
@@ -156,6 +158,7 @@ extension SettingColorViewController {
         guard let redText = redTextField.text else { return }
         if Float(redText) ?? 0.0 < 0 || Float(redText) ?? 0.0 > 1 {
             presentAlertVC(redTextField)
+            isComplete = false
         } else {
             redSlider.setValue(Float(redText) ?? redSlider.value, animated: true)
         }
@@ -163,6 +166,7 @@ extension SettingColorViewController {
         guard let greenText = greenTextField.text else { return }
         if Float(greenText) ?? 0.0 < 0 || Float(greenText) ?? 0.0 > 1 {
             presentAlertVC(greenTextField)
+            isComplete = false
         } else {
             greenSlider.setValue(Float(greenText) ?? greenSlider.value, animated: true)
         }
@@ -170,6 +174,7 @@ extension SettingColorViewController {
         guard let blueText = blueTextField.text else { return }
         if Float(blueText) ?? 0.0 < 0 || Float(blueText) ?? 0.0 > 1 {
             presentAlertVC(blueTextField)
+            isComplete = false
         } else {
             blueSlider.setValue(Float(blueText) ?? blueSlider.value, animated: true)
         }
