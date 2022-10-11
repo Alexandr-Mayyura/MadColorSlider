@@ -47,6 +47,7 @@ class SettingColorViewController: UIViewController {
         super.touchesBegan(touches, with: event)
         getValueFromTextfield()
         view.endEditing(isComplete)
+        isComplete = true
         updateUI()
     }
     
@@ -109,7 +110,6 @@ extension SettingColorViewController {
             redTextField.resignFirstResponder()
             greenTextField.resignFirstResponder()
             blueTextField.resignFirstResponder()
-            
         }
         isComplete = true
         updateUI()
