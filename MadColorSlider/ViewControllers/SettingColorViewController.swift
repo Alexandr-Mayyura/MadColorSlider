@@ -50,14 +50,6 @@ class SettingColorViewController: UIViewController {
     }
     
     @IBAction func sliderAction() {
-      
-        backgroundColor = UIColor(
-            red: CGFloat(redSlider.value),
-            green: CGFloat(greenSlider.value),
-            blue: CGFloat(blueSlider.value),
-            alpha: 1
-        )
-        
         updateUI()
     }
     
@@ -126,7 +118,12 @@ class SettingColorViewController: UIViewController {
 extension SettingColorViewController {
     private func updateUI() {
         
-        colorView.backgroundColor = backgroundColor
+        backgroundColor = UIColor(
+            red: CGFloat(redSlider.value),
+            green: CGFloat(greenSlider.value),
+            blue: CGFloat(blueSlider.value),
+            alpha: 1
+        )
         
         redColorLabel.text = "\(String(format: "%.2f", redSlider.value))"
         greenColorLabel.text = "\(String(format: "%.2f", greenSlider.value))"
@@ -135,6 +132,8 @@ extension SettingColorViewController {
         redTextField.text = "\(String(format: "%.2f", redSlider.value))"
         greenTextField.text = "\(String(format: "%.2f",greenSlider.value))"
         blueTextField.text = "\(String(format: "%.2f", blueSlider.value))"
+        
+        colorView.backgroundColor = backgroundColor
         
     }
     
@@ -178,9 +177,9 @@ extension SettingColorViewController {
             blueSlider.setValue(Float(blueText) ?? blueSlider.value, animated: true)
         }
         
-        redColorLabel.text = "\(String(format: "%.2f", redText))"
-        greenColorLabel.text = "\(String(format: "%.2f", greenText))"
-        blueColorLabel.text = "\(String(format: "%.2f", blueText))"
+        redColorLabel.text = "\(String(format: "%.2f", redSlider.value))"
+        greenColorLabel.text = "\(String(format: "%.2f", greenSlider.value))"
+        blueColorLabel.text = "\(String(format: "%.2f", blueSlider.value))"
         
         backgroundColor = UIColor(
             red: CGFloat(redSlider.value),
@@ -199,8 +198,8 @@ extension SettingColorViewController: UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        getValueFromTextfield()
-        updateUI()
+//        getValueFromTextfield()
+//        updateUI()
     }
     
     
