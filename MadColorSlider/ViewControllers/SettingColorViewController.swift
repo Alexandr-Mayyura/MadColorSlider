@@ -36,15 +36,12 @@ class SettingColorViewController: UIViewController {
         greenTextField.delegate = self
         blueTextField.delegate = self
         
-        addToolBar(redTextField)
-        addToolBar(greenTextField)
-        addToolBar(blueTextField)
+        addToolBar(redTextField, greenTextField, blueTextField)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         view.endEditing(true)
- 
     }
     
     @IBAction func sliderAction(_ sender: UISlider) {
@@ -71,11 +68,6 @@ class SettingColorViewController: UIViewController {
 
 // MARK: Private methods
 extension SettingColorViewController {
-    
-    private func string(from slider: UISlider) -> String {
-        String(format: "%.2f", slider.value)
-    }
-
     private func presentAlertVC(_ textField: UITextField? = nil) {
         let alertVC = UIAlertController(
             title: "Ошибка",
@@ -90,7 +82,7 @@ extension SettingColorViewController {
         present(alertVC, animated: true)
     }
     
-    private func addToolBar(_ textField: UITextField) {
+    private func addToolBar(_ textField: UITextField...) {
         let toolBar = UIToolbar()
         toolBar.sizeToFit()
         
@@ -108,11 +100,18 @@ extension SettingColorViewController {
 
         toolBar.items = [flexSpace, toolBarAction]
 
-        textField.inputAccessoryView = toolBar
+        textField.forEach { textField in
+            textField.inputAccessoryView = toolBar
+        }
     }
     
     @objc private func doneButtonTapped() {
         view.endEditing(true)
+    }
+    
+    
+    private func string(from slider: UISlider) -> String {
+        String(format: "%.2f", slider.value)
     }
     
     private func setColor() {
