@@ -46,17 +46,7 @@ class SettingColorViewController: UIViewController {
     
     @IBAction func sliderAction(_ sender: UISlider) {
         
-        switch sender {
-        case redSlider:
-            redColorLabel.text = string(from: sender)
-            redTextField.text = string(from: sender)
-        case greenSlider:
-            greenColorLabel.text = string(from: sender)
-            greenTextField.text = string(from: sender)
-        default:
-            blueColorLabel.text = string(from: sender)
-            blueTextField.text = string(from: sender)
-        }
+        getValueFromSlider(sender)
         setColor()
     }
     
@@ -68,6 +58,20 @@ class SettingColorViewController: UIViewController {
 
 // MARK: Private methods
 extension SettingColorViewController {
+    private func getValueFromSlider(_ slider: UISlider) {
+        switch slider {
+        case redSlider:
+            redColorLabel.text = string(from: slider)
+            redTextField.text = string(from: slider)
+        case greenSlider:
+            greenColorLabel.text = string(from: slider)
+            greenTextField.text = string(from: slider)
+        default:
+            blueColorLabel.text = string(from: slider)
+            blueTextField.text = string(from: slider)
+        }
+    }
+    
     private func presentAlertVC(_ textField: UITextField? = nil) {
         let alertVC = UIAlertController(
             title: "Ошибка",
@@ -114,6 +118,10 @@ extension SettingColorViewController {
         String(format: "%.2f", slider.value)
     }
     
+    private func stringFrom(_ value: CGFloat) -> String {
+        String(format: "%.2f", value)
+    }
+    
     private func setColor() {
         changeableСolor = UIColor(
             red: CGFloat(redSlider.value),
@@ -132,14 +140,13 @@ extension SettingColorViewController {
         greenSlider.value = Float(color.green)
         blueSlider.value = Float(color.blue)
         
-        redColorLabel.text = "\(String(format: "%.2f", color.red))"
-        greenColorLabel.text = "\(String(format: "%.2f", color.green))"
-        blueColorLabel.text = "\(String(format: "%.2f", color.blue))"
+        redColorLabel.text = stringFrom(color.red)
+        greenColorLabel.text = stringFrom(color.green)
+        blueColorLabel.text = stringFrom(color.blue)
         
-        redTextField.text = "\(String(format: "%.2f", color.red))"
-        greenTextField.text = "\(String(format: "%.2f", color.green))"
-        blueTextField.text = "\(String(format: "%.2f", color.blue))"
-        
+        redTextField.text = stringFrom(color.red)
+        greenTextField.text = stringFrom(color.green)
+        blueTextField.text = stringFrom(color.blue)
     }
 }
 
@@ -155,16 +162,13 @@ extension SettingColorViewController: UITextFieldDelegate {
             switch textField {
             case redTextField:
                 redSlider.setValue(Float(text) ?? redSlider.value, animated: true)
-                redColorLabel.text = string(from: redSlider)
-                redTextField.text = string(from: redSlider)
+                getValueFromSlider(redSlider)
             case greenTextField:
                 greenSlider.setValue(Float(text) ?? greenSlider.value, animated: true)
-                greenColorLabel.text = string(from: greenSlider)
-                greenTextField.text = string(from: greenSlider)
+                getValueFromSlider(greenSlider)
             default:
                 blueSlider.setValue(Float(text) ?? blueSlider.value, animated: true)
-                blueColorLabel.text = string(from: blueSlider)
-                blueTextField.text = string(from: blueSlider)
+                getValueFromSlider(blueSlider)
             }
             setColor()
             
