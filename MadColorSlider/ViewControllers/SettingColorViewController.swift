@@ -26,8 +26,6 @@ class SettingColorViewController: UIViewController {
     var changeableСolor: UIColor!
     
     var delegate: SettingColorViewControllerDelegate!
-    
-    private var isComplete = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,14 +43,24 @@ class SettingColorViewController: UIViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        getValueFromTextfield()
-        view.endEditing(isComplete)
-        isComplete = true
-        updateUI()
+        view.endEditing(true)
+ 
     }
     
-    @IBAction func sliderAction() {
-        updateUI()
+    @IBAction func sliderAction(_ sender: UISlider) {
+        
+        switch sender {
+        case redSlider:
+            redColorLabel.text = string(from: sender)
+            redTextField.text = string(from: sender)
+        case greenSlider:
+            greenColorLabel.text = string(from: sender)
+            greenTextField.text = string(from: sender)
+        default:
+            blueColorLabel.text = string(from: sender)
+            blueTextField.text = string(from: sender)
+        }
+        setColor()
     }
     
     @IBAction func saveValueAndExit() {
@@ -63,6 +71,11 @@ class SettingColorViewController: UIViewController {
 
 // MARK: Private methods
 extension SettingColorViewController {
+    
+    private func string(from slider: UISlider) -> String {
+        String(format: "%.2f", slider.value)
+    }
+
     private func presentAlertVC(_ textField: UITextField? = nil) {
         let alertVC = UIAlertController(
             title: "Ошибка",
@@ -78,13 +91,8 @@ extension SettingColorViewController {
     }
     
     private func addToolBar(_ textField: UITextField) {
-        let toolBar = UIToolbar(frame: CGRect(
-            x: 0,
-            y: 0,
-            width: view.frame.size.width,
-            height: 35
-        ))
-        toolBar.barStyle = .default
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
         
         let flexSpace = UIBarButtonItem(
             barButtonSystemItem: .flexibleSpace,
@@ -97,26 +105,17 @@ extension SettingColorViewController {
             target: nil,
             action: #selector(doneButtonTapped)
         )
-        
-        let items = [flexSpace, toolBarAction]
-        toolBar.items = items
+
+        toolBar.items = [flexSpace, toolBarAction]
 
         textField.inputAccessoryView = toolBar
     }
     
     @objc private func doneButtonTapped() {
-        getValueFromTextfield()
-        if isComplete {
-            redTextField.resignFirstResponder()
-            greenTextField.resignFirstResponder()
-            blueTextField.resignFirstResponder()
-        }
-        isComplete = true
-        updateUI()
+        view.endEditing(true)
     }
     
-    private func updateUI() {
-        
+    private func setColor() {
         changeableСolor = UIColor(
             red: CGFloat(redSlider.value),
             green: CGFloat(greenSlider.value),
@@ -124,16 +123,7 @@ extension SettingColorViewController {
             alpha: 1
         )
         
-        redColorLabel.text = "\(String(format: "%.2f", redSlider.value))"
-        greenColorLabel.text = "\(String(format: "%.2f", greenSlider.value))"
-        blueColorLabel.text = "\(String(format: "%.2f", blueSlider.value))"
-        
-        redTextField.text = "\(String(format: "%.2f", redSlider.value))"
-        greenTextField.text = "\(String(format: "%.2f",greenSlider.value))"
-        blueTextField.text = "\(String(format: "%.2f", blueSlider.value))"
-        
         colorView.backgroundColor = changeableСolor
-        
     }
     
     private func passedValueFromColor() {
@@ -152,56 +142,34 @@ extension SettingColorViewController {
         blueTextField.text = "\(String(format: "%.2f", color.blue))"
         
     }
-    
-    private func getValueFromTextfield() {
-         
-        guard let redText = redTextField.text else { return }
-        if Float(redText) ?? 0.0 < 0 || Float(redText) ?? 0.0 > 1 {
-            presentAlertVC(redTextField)
-            isComplete = false
-        } else {
-            redSlider.setValue(Float(redText) ?? redSlider.value, animated: true)
-        }
-        
-        guard let greenText = greenTextField.text else { return }
-        if Float(greenText) ?? 0.0 < 0 || Float(greenText) ?? 0.0 > 1 {
-            presentAlertVC(greenTextField)
-            isComplete = false
-        } else {
-            greenSlider.setValue(Float(greenText) ?? greenSlider.value, animated: true)
-        }
-        
-        guard let blueText = blueTextField.text else { return }
-        if Float(blueText) ?? 0.0 < 0 || Float(blueText) ?? 0.0 > 1 {
-            presentAlertVC(blueTextField)
-            isComplete = false
-        } else {
-            blueSlider.setValue(Float(blueText) ?? blueSlider.value, animated: true)
-        }
-        
-        redColorLabel.text = "\(String(format: "%.2f", redSlider.value))"
-        greenColorLabel.text = "\(String(format: "%.2f", greenSlider.value))"
-        blueColorLabel.text = "\(String(format: "%.2f", blueSlider.value))"
-        
-        changeableСolor = UIColor(
-            red: CGFloat(redSlider.value),
-            green: CGFloat(greenSlider.value),
-            blue: CGFloat(blueSlider.value),
-            alpha: 1
-        )
-    }
 }
 
 // MARK:  UITextFieldDelegate
 extension SettingColorViewController: UITextFieldDelegate {
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.text = ""
-    }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        getValueFromTextfield()
-        updateUI()
+        guard let text = textField.text else { return }
+        if Float(text) ?? 0.0 < 0 || Float(text) ?? 0.0 > 1 {
+            presentAlertVC(textField)
+        } else {
+            
+            switch textField {
+            case redTextField:
+                redSlider.setValue(Float(text) ?? redSlider.value, animated: true)
+                redColorLabel.text = string(from: redSlider)
+                redTextField.text = string(from: redSlider)
+            case greenTextField:
+                greenSlider.setValue(Float(text) ?? greenSlider.value, animated: true)
+                greenColorLabel.text = string(from: greenSlider)
+                greenTextField.text = string(from: greenSlider)
+            default:
+                blueSlider.setValue(Float(text) ?? blueSlider.value, animated: true)
+                blueColorLabel.text = string(from: blueSlider)
+                blueTextField.text = string(from: blueSlider)
+            }
+            setColor()
+            
+        }
     }
 }
 
