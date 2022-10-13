@@ -30,7 +30,7 @@ class SettingColorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         colorView.backgroundColor = changeableСolor
-        passedValueFromColor()
+        passedValueFromColor(redSlider, greenSlider, blueSlider)
         
         redTextField.delegate = self
         greenTextField.delegate = self
@@ -45,7 +45,6 @@ class SettingColorViewController: UIViewController {
     }
     
     @IBAction func sliderAction(_ sender: UISlider) {
-        
         getValueFromSlider(sender)
         setColor()
     }
@@ -113,7 +112,6 @@ extension SettingColorViewController {
         view.endEditing(true)
     }
     
-    
     private func string(from slider: UISlider) -> String {
         String(format: "%.2f", slider.value)
     }
@@ -129,36 +127,30 @@ extension SettingColorViewController {
             blue: CGFloat(blueSlider.value),
             alpha: 1
         )
-        
         colorView.backgroundColor = changeableСolor
     }
     
-    private func passedValueFromColor() {
+    private func passedValueFromColor(_ slider: UISlider...) {
         let  color = CIColor(color: changeableСolor)
         
         redSlider.value = Float(color.red)
         greenSlider.value = Float(color.green)
         blueSlider.value = Float(color.blue)
         
-        redColorLabel.text = stringFrom(color.red)
-        greenColorLabel.text = stringFrom(color.green)
-        blueColorLabel.text = stringFrom(color.blue)
-        
-        redTextField.text = stringFrom(color.red)
-        greenTextField.text = stringFrom(color.green)
-        blueTextField.text = stringFrom(color.blue)
+        slider.forEach { slider in
+            getValueFromSlider(slider)
+        }
     }
 }
 
 // MARK:  UITextFieldDelegate
 extension SettingColorViewController: UITextFieldDelegate {
-
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let text = textField.text else { return }
-        if Float(text) ?? 0.0 < 0 || Float(text) ?? 0.0 > 1 {
+        if Float(text) ?? 0 < 0 || Float(text) ?? 0 > 1 {
             presentAlertVC(textField)
         } else {
-            
             switch textField {
             case redTextField:
                 redSlider.setValue(Float(text) ?? redSlider.value, animated: true)
@@ -171,7 +163,6 @@ extension SettingColorViewController: UITextFieldDelegate {
                 getValueFromSlider(blueSlider)
             }
             setColor()
-            
         }
     }
 }
